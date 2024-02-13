@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:blue_print_pos/models/blue_device.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart' as blue_thermal;
-import 'package:flutter_blue_plus/flutter_blue_plus.dart' as flutter_blue;
+import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 /// This class with static method to handler scanning in Android and iOS
 class BlueScanner {
@@ -26,27 +26,24 @@ class BlueScanner {
           )
           .toList();
     } else if (Platform.isIOS) {
-      final flutter_blue.FlutterBluePlus bluetoothIOS =
-          flutter_blue.FlutterBluePlus.instance;
-      final List<flutter_blue.BluetoothDevice> resultDevices =
-          <flutter_blue.BluetoothDevice>[];
+      final List<BluetoothDevice> resultDevices = <BluetoothDevice>[];
 
-      await bluetoothIOS.startScan(
+      await FlutterBluePlus.startScan(
         timeout: const Duration(seconds: 5),
       );
-      bluetoothIOS.scanResults
-          .listen((List<flutter_blue.ScanResult> scanResults) {
-        for (final flutter_blue.ScanResult scanResult in scanResults) {
+      FlutterBluePlus.scanResults
+          .listen((List<ScanResult> scanResults) {
+        for (final ScanResult scanResult in scanResults) {
           resultDevices.add(scanResult.device);
         }
       });
 
-      await bluetoothIOS.stopScan();
+      await FlutterBluePlus.stopScan();
       devices = resultDevices
           .toSet()
           .toList()
           .map(
-            (flutter_blue.BluetoothDevice bluetoothDevice) => BlueDevice(
+            (BluetoothDevice bluetoothDevice) => BlueDevice(
               address: bluetoothDevice.id.id,
               name: bluetoothDevice.name,
               type: bluetoothDevice.type.index,
