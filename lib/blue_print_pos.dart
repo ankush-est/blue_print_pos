@@ -60,9 +60,10 @@ class BluePrintPos {
       } else if (Platform.isIOS) {
         _bluetoothDeviceIOS = BluetoothDevice.fromProto(
           BmBluetoothDevice(
-            localName: selectedDevice?.name ?? '',
-            remoteId: selectedDevice?.address ?? '',
-            type: BmBluetoothSpecEnum.values[selectedDevice?.type ?? 0],
+            platformName: Platform.operatingSystem,
+            // localName: selectedDevice?.name ?? '',
+            remoteId: DeviceIdentifier(selectedDevice?.address ?? ''),
+            // type: BmBluetoothSpecEnum.values[selectedDevice?.type ?? 0],
           ),
         );
         final List<BluetoothDevice> connectedDevices =

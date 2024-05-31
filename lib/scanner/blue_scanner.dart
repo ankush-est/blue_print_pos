@@ -46,7 +46,7 @@ class BlueScanner {
             (BluetoothDevice bluetoothDevice) => BlueDevice(
               address: bluetoothDevice.id.id,
               name: bluetoothDevice.name,
-              type: bluetoothDevice.type.index,
+              // type: bluetoothDevice.type.index,
             ),
           )
           .toList();
